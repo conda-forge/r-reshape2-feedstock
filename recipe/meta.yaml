@@ -1,5 +1,4 @@
 {% set version = '1.4.3' %}
-
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,13 +9,13 @@ package:
 source:
   fn: reshape2_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/reshape2_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/reshape2_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
   sha256: 8aff94c935e75032344b52407593392ddd4e16a88bb206984340c816d42c710e
 
 build:
   merge_build_host: True  # [win]
-  number: 1
+  number: 2
   skip: true  # [win32]
   rpaths:
     - lib/R/lib/
@@ -24,26 +23,29 @@ build:
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
-    - {{ compiler('cxx') }}        # [unix]
-    - {{ compiler('m2w64_cxx') }}  # [win]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-rcpp
     - r-plyr >=1.8.1
     - r-stringr
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
     - r-plyr >=1.8.1
     - r-stringr
 
 test:
   commands:
-    - $R -e "library('reshape2')"  # [not win]
+    - $R -e "library('reshape2')"           # [not win]
     - "\"%R%\" -e \"library('reshape2')\""  # [win]
 
 about:
@@ -56,8 +58,8 @@ about:
 extra:
   recipe-maintainers:
     - lpantano
-    - cbrueffer
     - johanneskoester
     - bgruening
     - daler
     - jdblischak
+    - cbrueffer
