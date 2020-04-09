@@ -1,4 +1,4 @@
-{% set version = "1.4.4" %}
+{% set version = '1.4.4' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -7,26 +7,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: reshape2_{{ version }}.tar.gz
   url:
     - {{ cran_mirror }}/src/contrib/reshape2_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
   sha256: d88dcf9e2530fa9695fc57d0c78adfc5e361305fe8919fe09410b17da5ca12d8
 
 build:
-  merge_build_host: true  # [win]
+  merge_build_host: True  # [win]
   number: 0
-  skip: true  # [win32]
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('cxx') }}      # [not win]
+    - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
-    - {{ compiler('m2w64_cxx') }}        # [win]
+    - {{ compiler('cxx') }}            # [not win]
+    - {{ compiler('m2w64_cxx') }}      # [win]
     - {{posix}}filesystem        # [win]
     - {{posix}}make
     - {{posix}}sed               # [win]
@@ -52,16 +50,35 @@ test:
 about:
   home: https://github.com/hadley/reshape
   license: MIT
-  license_file: LICENSE
-  summary: "Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast')."
+  summary: 'Flexibly restructure and aggregate data using just two functions: melt and ''dcast''
+    (or ''acast'').'
   license_family: MIT
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/MIT'
+    - LICENSE
 
 extra:
   recipe-maintainers:
     - conda-forge/r
     - lpantano
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
-    - cbrueffer
+
+# Package: reshape2
+# Title: Flexibly Reshape Data: A Reboot of the Reshape Package
+# Version: 1.4.4
+# Author: Hadley Wickham <h.wickham@gmail.com>
+# Maintainer: Hadley Wickham <h.wickham@gmail.com>
+# Description: Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
+# License: MIT + file LICENSE
+# URL: https://github.com/hadley/reshape
+# BugReports: https://github.com/hadley/reshape/issues
+# Depends: R (>= 3.1)
+# Imports: plyr (>= 1.8.1), Rcpp, stringr
+# Suggests: covr, lattice, testthat (>= 0.8.0)
+# LinkingTo: Rcpp
+# Encoding: UTF-8
+# LazyData: true
+# RoxygenNote: 7.1.0
+# NeedsCompilation: yes
+# Packaged: 2020-04-09 12:27:19 UTC; hadley
+# Repository: CRAN
+# Date/Publication: 2020-04-09 13:50:02 UTC
