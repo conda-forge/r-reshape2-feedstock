@@ -1,4 +1,4 @@
-{% set version = '1.4.3' %}
+{% set version = "1.4.4" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -11,11 +11,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/reshape2_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/reshape2/reshape2_{{ version }}.tar.gz
-  sha256: 8aff94c935e75032344b52407593392ddd4e16a88bb206984340c816d42c710e
+  sha256: d88dcf9e2530fa9695fc57d0c78adfc5e361305fe8919fe09410b17da5ca12d8
 
 build:
-  merge_build_host: True  # [win]
-  number: 1004
+  merge_build_host: true  # [win]
+  number: 0
   skip: true  # [win32]
   rpaths:
     - lib/R/lib/
@@ -52,8 +52,8 @@ test:
 about:
   home: https://github.com/hadley/reshape
   license: MIT
-  summary: 'Flexibly restructure and aggregate data using just two functions: melt and ''dcast''
-    (or ''acast'').'
+  license_file: LICENSE
+  summary: "Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast')."
   license_family: MIT
 
 extra:
