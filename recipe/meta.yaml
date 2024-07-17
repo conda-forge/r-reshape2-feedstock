@@ -1,6 +1,5 @@
 {% set version = '1.4.4' %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-reshape2
@@ -13,8 +12,7 @@ source:
   sha256: d88dcf9e2530fa9695fc57d0c78adfc5e361305fe8919fe09410b17da5ca12d8
 
 build:
-  merge_build_host: True  # [win]
-  number: 3
+  number: 4
   rpaths:
     - lib/R/lib/
     - lib/
@@ -26,7 +24,9 @@ requirements:
     - r-plyr                     # [build_platform != target_platform]
     - r-rcpp                     # [build_platform != target_platform]
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ compiler('cxx') }}            # [not win]
     - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ posix }}filesystem        # [win]
@@ -41,7 +41,6 @@ requirements:
     - r-stringr
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-rcpp
     - r-plyr >=1.8.1
     - r-stringr
